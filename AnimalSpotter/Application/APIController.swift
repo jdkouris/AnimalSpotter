@@ -20,4 +20,9 @@ class APIController {
     
     private let baseUrl = URL(string: "https://lambdaanimalspotter.vapor.cloud/api")!
     
+    // create function for sign up
+//    func signUp(with user: User)
+    
+    // create function for sign in
+    
 }
