@@ -8,6 +8,11 @@
 
 import UIKit
 
+enum LoginType {
+    case signUp
+    case signIn
+}
+
 class LoginViewController: UIViewController {
 
     @IBOutlet weak var usernameTextField: UITextField!
@@ -16,7 +21,7 @@ class LoginViewController: UIViewController {
     @IBOutlet weak var signInButton: UIButton!
     
     var apiController: APIController?
-//    var loginType = LoginType.signUp
+    var loginType = LoginType.signUp
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -26,19 +31,47 @@ class LoginViewController: UIViewController {
         signInButton.layer.cornerRadius = 8.0
     }
     
+    func signUp(with user: User) {
+        apiController?.signUp(with: user, completion: { (error) in
+            if let error = error {
+                NSLog("Error occurred during sign up: \(error)")
+            } else {
+                let alert = UIAlertController(title: "Sign Up Successful", message: "Now please log in", preferredStyle: .alert)
+                alert.addAction(UIAlertAction(title: "OK", style: .default, handler: nil))
+                self.present(alert, animated: true) {
+                    self.loginType = .signIn
+                    self.loginTypeSegmentedControl.selectedSegmentIndex = 1
+                    self.signInButton.setTitle("Sign In", for: .normal)
+                }
+            }
+        })
+    }
+    
     @IBAction func buttonTapped(_ sender: UIButton) {
+        // Create a user
+        guard let username = usernameTextField.text,
+            let password = passwordTextField.text,
+            !username.isEmpty,
+            !password.isEmpty else { return }
+        
+        let user = User(username: username, password: password)
+        
+        // perform login or sign up operation based on loginType
+        if loginType == .signUp {
+            signUp(with: user)
+        } else {
+            
+        }
     }
     
     @IBAction func signInTypeChanged(_ sender: UISegmentedControl) {
+        if sender.selectedSegmentIndex == 0 {
+            loginType = .signUp
+            signInButton.setTitle("Sign Up", for: .normal)
+        } else {
+            loginType = .signIn
+            signInButton.setTitle("Sign In", for: .normal)
+        }
     }
-    /*
-    // MARK: - Navigation
-
-    // In a storyboard-based application, you will often want to do a little preparation before navigation
-    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-        // Get the new view controller using segue.destination.
-        // Pass the selected object to the new view controller.
-    }
-    */
 
 }
