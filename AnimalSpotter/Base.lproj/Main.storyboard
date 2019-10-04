@@ -40,7 +40,11 @@
                         </connections>
                     </tableView>
                     <navigationItem key="navigationItem" title="Animal Spotter" id="x6H-Sr-ekd">
-                        <barButtonItem key="leftBarButtonItem" title="Get Animals" id="NcC-6N-Pz0"/>
+                        <barButtonItem key="leftBarButtonItem" title="Get Animals" id="NcC-6N-Pz0">
+                            <connections>
+                                <action selector="getAnimals:" destination="qNy-HA-XnZ" id="Cvj-et-wvq"/>
+                            </connections>
+                        </barButtonItem>
                     </navigationItem>
                     <connections>
                         <segue destination="zvk-zQ-hFr" kind="presentation" identifier="LoginViewModalSegue" id="byJ-RD-9vG"/>

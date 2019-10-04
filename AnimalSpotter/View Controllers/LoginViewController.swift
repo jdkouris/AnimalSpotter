@@ -15,6 +15,9 @@ class LoginViewController: UIViewController {
     @IBOutlet weak var loginTypeSegmentedControl: UISegmentedControl!
     @IBOutlet weak var signInButton: UIButton!
     
+    var apiController: APIController?
+//    var loginType = LoginType.signUp
+    
     override func viewDidLoad() {
         super.viewDidLoad()
 
