@@ -7,3 +7,17 @@
 //
 
 import Foundation
+import UIKit
+
+enum HTTPMethod: String {
+    case get = "GET"
+    case put = "PUT"
+    case post = "POST"
+    case delete = "DELETE"
+}
+
+class APIController {
+    
+    private let baseUrl = URL(string: "https://lambdaanimalspotter.vapor.cloud/api")!
+    
+}
