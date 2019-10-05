@@ -47,7 +47,7 @@
                         </barButtonItem>
                     </navigationItem>
                     <connections>
-                        <segue destination="zvk-zQ-hFr" kind="presentation" identifier="LoginViewModalSegue" id="byJ-RD-9vG"/>
+                        <segue destination="zvk-zQ-hFr" kind="presentation" identifier="LoginViewModalSegue" modalPresentationStyle="fullScreen" id="byJ-RD-9vG"/>
                     </connections>
                 </tableViewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="TAg-4w-rKn" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
@@ -59,11 +59,11 @@
             <objects>
                 <viewController id="zvk-zQ-hFr" customClass="LoginViewController" customModule="AnimalSpotter" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="xvD-0G-wmS">
-                        <rect key="frame" x="0.0" y="0.0" width="414" height="842"/>
+                        <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" alignment="center" spacing="16" translatesAutoresizingMaskIntoConstraints="NO" id="PVf-Ej-DLe">
-                                <rect key="frame" x="20" y="40" width="374" height="197"/>
+                                <rect key="frame" x="20" y="84" width="374" height="197"/>
                                 <subviews>
                                     <segmentedControl opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="top" segmentControlStyle="plain" selectedSegmentIndex="0" translatesAutoresizingMaskIntoConstraints="NO" id="WVm-ij-62P">
                                         <rect key="frame" x="119.5" y="0.0" width="135" height="32"/>
