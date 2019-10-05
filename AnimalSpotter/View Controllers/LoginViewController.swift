@@ -28,6 +28,7 @@ class LoginViewController: UIViewController {
 
         signInButton.backgroundColor = UIColor(hue: 190/360, saturation: 70/100, brightness: 80/100, alpha: 1.0)
         signInButton.tintColor = .white
+        signInButton.setTitleColor(.white, for: .normal)
         signInButton.layer.cornerRadius = 8.0
     }
     
@@ -36,12 +37,27 @@ class LoginViewController: UIViewController {
             if let error = error {
                 NSLog("Error occurred during sign up: \(error)")
             } else {
-                let alert = UIAlertController(title: "Sign Up Successful", message: "Now please log in", preferredStyle: .alert)
+                let alert = UIAlertController(title: "Sign Up Successful", message: "Now please sign in", preferredStyle: .alert)
                 alert.addAction(UIAlertAction(title: "OK", style: .default, handler: nil))
-                self.present(alert, animated: true) {
-                    self.loginType = .signIn
-                    self.loginTypeSegmentedControl.selectedSegmentIndex = 1
-                    self.signInButton.setTitle("Sign In", for: .normal)
+                
+                DispatchQueue.main.async {
+                    self.present(alert, animated: true) {
+                        self.loginType = .signIn
+                        self.loginTypeSegmentedControl.selectedSegmentIndex = 1
+                        self.signInButton.setTitle("Sign In", for: .normal)
+                    }
+                }
+            }
+        })
+    }
+    
+    func signIn(with user: User) {
+        apiController?.signIn(with: user, completion: { (error) in
+            if let error = error {
+                NSLog("Error occurred during sign in: \(error)")
+            } else {
+                DispatchQueue.main.async {
+                    self.dismiss(animated: true, completion: nil)
                 }
             }
         })
@@ -60,7 +76,7 @@ class LoginViewController: UIViewController {
         if loginType == .signUp {
             signUp(with: user)
         } else {
-            
+            signIn(with: user)
         }
     }
     
