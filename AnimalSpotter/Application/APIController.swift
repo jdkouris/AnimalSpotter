@@ -175,8 +175,47 @@ class APIController {
         }.resume()
     }
     
+    // MARK: - Fetch single animal details
+    
     func fetchDetails(for animalName: String, completion: @escaping (Result<Animal, NetworkingError>) -> Void) {
+        guard let bearer = bearer else {
+            completion(.failure(.noBearer))
+            return
+        }
         
+        let requestURL = baseUrl.appendingPathComponent("animals").appendingPathComponent(animalName)
+        var request = URLRequest(url: requestURL)
+        request.httpMethod = HTTPMethod.get.rawValue
+        request.setValue("Bearer \(bearer.token)", forHTTPHeaderField: HeaderName.authorization.rawValue)
+        
+        URLSession.shared.dataTask(with: request) { (data, response, error) in
+            if let error = error {
+                NSLog("Error fetching animal details: \(error)")
+                completion(.failure(.serverError(error)))
+            }
+            
+            if let response = response as? HTTPURLResponse,
+                response.statusCode != 200 {
+                completion(.failure(.unexpectedStatusCode))
+                return
+            }
+            
+            guard let data = data else {
+                completion(.failure(.noData))
+                return
+            }
+            
+            do {
+                let decoder = JSONDecoder()
+                decoder.dateDecodingStrategy = .secondsSince1970
+                
+                let animal = try decoder.decode(Animal.self, from: data)
+                completion(.success(animal))
+            } catch {
+                NSLog("Error decoding Animal: \(error)")
+                completion(.failure(.badDecode))
+            }
+        }.resume()
     }
     
 }
