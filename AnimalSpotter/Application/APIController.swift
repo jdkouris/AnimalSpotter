@@ -16,6 +16,19 @@ enum HTTPMethod: String {
     case delete = "DELETE"
 }
 
+enum NetworkingError: Error {
+    case noData
+    case noBearer
+    case serverError(Error)
+    case unexpectedStatusCode
+    case badDecode
+}
+
+enum HeaderName: String {
+    case authorization = "Authorization"
+    case contentType = "Content-Type"
+}
+
 class APIController {
     
     private let baseUrl = URL(string: "https://lambdaanimalspotter.vapor.cloud/api")!
@@ -33,7 +46,7 @@ class APIController {
         request.httpMethod = HTTPMethod.post.rawValue
         
         // Tell the API that the body is in JSON format
-        request.setValue("application/json", forHTTPHeaderField: "Content-Type")
+        request.setValue("application/json", forHTTPHeaderField: HeaderName.contentType.rawValue)
         
         let encoder = JSONEncoder()
         
@@ -71,7 +84,7 @@ class APIController {
             .appendingPathComponent("login")
         
         var request = URLRequest(url: requestURL)
-        request.setValue("application/json", forHTTPHeaderField: "Content-Type")
+        request.setValue("application/json", forHTTPHeaderField: HeaderName.contentType.rawValue)
         request.httpMethod = HTTPMethod.post.rawValue
         
         do {
@@ -110,6 +123,47 @@ class APIController {
             }
             
             completion(nil)
+        }.resume()
+    }
+    
+    // The Result enum is going to have an [String] for its success and a NetworkingError for its failure
+    func fetchAllAnimalNames(completion: @escaping (Result<[String], NetworkingError>) -> Void) {
+        guard let bearer = bearer else {
+            completion(.failure(.noBearer))
+            return
+        }
+        
+        let requestURL = baseUrl.appendingPathComponent("animals").appendingPathComponent("all")
+        var request = URLRequest(url: requestURL)
+        request.httpMethod = HTTPMethod.get.rawValue
+        
+        // "Bearer DLEVQL2eruEWt4leWLcxL5Qb94dMcw0ACVyesOV6YGA="
+        request.setValue("Bearer \(bearer.token)", forHTTPHeaderField: HeaderName.authorization.rawValue)
+        
+        URLSession.shared.dataTask(with: request) { (data, response, error) in
+            if let error = error {
+                NSLog("Error fetching animal names: \(error)")
+                completion(.failure(.serverError(error)))
+                return
+            }
+            
+            if let response = response as? HTTPURLResponse,
+                response.statusCode != 200 {
+                completion(.failure(.unexpectedStatusCode))
+            }
+            
+            guard let data = data else {
+                completion(.failure(.noData))
+                return
+            }
+            
+            do {
+                let animalNames = try JSONDecoder().decode([String].self, from: data)
+                completion(.success(animalNames))
+            } catch {
+                NSLog("Error decoding animal names: \(error)")
+                completion(.failure(.badDecode))
+            }
         }.resume()
     }
     
