@@ -33,6 +33,12 @@ class AnimalDetailViewController: UIViewController {
                 DispatchQueue.main.async {
                     self.updateViews(with: animal)
                 }
+                
+                self.apiController?.fetchImage(at: animal.imageURL, completion: { (image) in
+                    DispatchQueue.main.async {
+                        self.animalImageView.image = image
+                    }
+                })
             } catch {
                 NSLog("Error fetching animal details: \(error)")
             }

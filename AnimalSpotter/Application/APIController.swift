@@ -218,4 +218,30 @@ class APIController {
         }.resume()
     }
     
+    // MARK: - Fetch image
+    
+    func fetchImage(at urlString: String, completion: @escaping (UIImage?) -> Void) {
+        guard let url = URL(string: urlString) else {
+            completion(nil)
+            return
+        }
+        
+        URLSession.shared.dataTask(with: url) { (data, _, error) in
+            if let error = error {
+                NSLog("Error fetching image: \(error)")
+                completion(nil)
+                return
+            }
+            
+            guard let data = data else {
+                NSLog("No data returned from image fetch data task")
+                completion(nil)
+                return
+            }
+            
+            let image = UIImage(data: data)
+            completion(image)
+        }.resume()
+    }
+    
 }
