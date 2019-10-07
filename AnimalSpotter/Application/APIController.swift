@@ -9,6 +9,8 @@
 import Foundation
 import UIKit
 
+// MARK: - Helper enums
+
 enum HTTPMethod: String {
     case get = "GET"
     case put = "PUT"
@@ -33,6 +35,8 @@ class APIController {
     
     private let baseUrl = URL(string: "https://lambdaanimalspotter.vapor.cloud/api")!
     var bearer: Bearer?
+    
+    // MARK: - Sign up
     
     // create function for sign up
     func signUp(with user: User, completion: @escaping (Error?) -> Void) {
@@ -76,6 +80,8 @@ class APIController {
             completion(nil)
         }.resume()
     }
+    
+    // MARK: - Sign in
     
     // create function for sign in
     func signIn(with user: User, completion: @escaping (Error?) -> Void) {
@@ -125,6 +131,8 @@ class APIController {
             completion(nil)
         }.resume()
     }
+    
+    // MARK: - Fetch all animal names
     
     // The Result enum is going to have an [String] for its success and a NetworkingError for its failure
     func fetchAllAnimalNames(completion: @escaping (Result<[String], NetworkingError>) -> Void) {
