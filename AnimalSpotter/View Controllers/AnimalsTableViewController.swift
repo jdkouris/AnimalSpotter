@@ -43,7 +43,18 @@ class AnimalsTableViewController: UITableViewController {
     }
 
     @IBAction func getAnimals(_ sender: UIBarButtonItem) {
-        
+        apiController.fetchAllAnimalNames { (result) in
+            do {
+                let animalNames = try result.get()
+                self.animalNames = animalNames
+                
+                DispatchQueue.main.async {
+                    self.tableView.reloadData()
+                }
+            } catch {
+                NSLog("Error fetching animal names: \(error)")
+            }
+        }
     }
     
     // MARK: - Navigation
