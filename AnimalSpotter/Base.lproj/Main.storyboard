@@ -33,7 +33,7 @@
                                     </subviews>
                                 </tableViewCellContentView>
                                 <connections>
-                                    <segue destination="TCP-i8-H5E" kind="show" id="0OI-Je-EC3"/>
+                                    <segue destination="TCP-i8-H5E" kind="show" identifier="ShowAnimalDetailSegue" id="0OI-Je-EC3"/>
                                 </connections>
                             </tableViewCell>
                         </prototypes>
@@ -147,7 +147,7 @@
                     <navigationItem key="navigationItem" id="0q6-Po-E0p"/>
                     <connections>
                         <outlet property="animalImageView" destination="ocJ-WK-gBa" id="6XF-WH-Uya"/>
-                        <outlet property="corrdinatesLabel" destination="rc3-vp-W1H" id="yXi-Gb-HLu"/>
+                        <outlet property="coordinatesLabel" destination="rc3-vp-W1H" id="yXi-Gb-HLu"/>
                         <outlet property="descriptionLabel" destination="q3F-Ef-Ftj" id="bpt-xF-4Ct"/>
                         <outlet property="timeSeenLabel" destination="nNC-mI-oiB" id="HGW-Ps-Abp"/>
                     </connections>

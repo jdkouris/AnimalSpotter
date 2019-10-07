@@ -11,26 +11,43 @@ import UIKit
 class AnimalDetailViewController: UIViewController {
 
     @IBOutlet var timeSeenLabel: UILabel!
-    @IBOutlet var corrdinatesLabel: UILabel!
+    @IBOutlet var coordinatesLabel: UILabel!
     @IBOutlet var descriptionLabel: UILabel!
     @IBOutlet var animalImageView: UIImageView!
     
+    var apiController: APIController?
+    var animalName: String?
     
     override func viewDidLoad() {
         super.viewDidLoad()
 
-        // Do any additional setup after loading the view.
+        getDetails()
     }
     
-
-    /*
-    // MARK: - Navigation
-
-    // In a storyboard-based application, you will often want to do a little preparation before navigation
-    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-        // Get the new view controller using segue.destination.
-        // Pass the selected object to the new view controller.
+    func getDetails() {
+        guard let animalName = animalName else { return }
+        apiController?.fetchDetails(for: animalName, completion: { (result) in
+            do {
+                let animal = try result.get()
+                
+                DispatchQueue.main.async {
+                    self.updateViews(with: animal)
+                }
+            } catch {
+                NSLog("Error fetching animal details: \(error)")
+            }
+        })
     }
-    */
+
+    func updateViews(with animal: Animal) {
+        title = animal.name
+        descriptionLabel.text = animal.description
+        coordinatesLabel.text = "Lat: \(animal.latitude), long: \(animal.longitude)"
+        
+        let formatter = DateFormatter()
+        formatter.dateStyle = .short
+        
+        timeSeenLabel.text = formatter.string(from: animal.timeSeen)
+    }
 
 }
