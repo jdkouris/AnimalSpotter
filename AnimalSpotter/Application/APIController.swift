@@ -175,4 +175,8 @@ class APIController {
         }.resume()
     }
     
+    func fetchDetails(for animalName: String, completion: @escaping (Result<Animal, NetworkingError>) -> Void) {
+        
+    }
+    
 }
