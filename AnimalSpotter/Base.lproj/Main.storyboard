@@ -57,10 +57,10 @@
             </objects>
             <point key="canvasLocation" x="600" y="157"/>
         </scene>
-        <!--View Controller-->
+        <!--Animal Detail View Controller-->
         <scene sceneID="fsW-5y-pLY">
             <objects>
-                <viewController id="TCP-i8-H5E" sceneMemberID="viewController">
+                <viewController id="TCP-i8-H5E" customClass="AnimalDetailViewController" customModule="AnimalSpotter" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="t1i-jr-UI5">
                         <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
@@ -145,10 +145,16 @@
                         <viewLayoutGuide key="safeArea" id="0QK-uZ-6Oh"/>
                     </view>
                     <navigationItem key="navigationItem" id="0q6-Po-E0p"/>
+                    <connections>
+                        <outlet property="animalImageView" destination="ocJ-WK-gBa" id="6XF-WH-Uya"/>
+                        <outlet property="corrdinatesLabel" destination="rc3-vp-W1H" id="yXi-Gb-HLu"/>
+                        <outlet property="descriptionLabel" destination="q3F-Ef-Ftj" id="bpt-xF-4Ct"/>
+                        <outlet property="timeSeenLabel" destination="nNC-mI-oiB" id="HGW-Ps-Abp"/>
+                    </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="cQl-V6-t04" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="1490" y="157"/>
+            <point key="canvasLocation" x="1420" y="157"/>
         </scene>
         <!--Login View Controller-->
         <scene sceneID="dlt-8n-K49">
